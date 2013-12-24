@@ -42,7 +42,7 @@ get_deriv_model<-function(dataset){
     return(list('deriv'=deriv,'x_val'=x_val,'y_val'=y_val,'lm'=model))
     }
 
-the_data<-read.table(data,as.is=TRUE)
+the_data<-read.table(data,as.is=TRUE,skip=1)
 deriv_data<-get_deriv_model(the_data)
 deriv<-deriv_data$deriv
 model<-deriv_data$lm
