@@ -47,6 +47,9 @@ for line in gzip.open(data_path):
     if i%1000000==0:
         print i
     i+=1
+    # testing!
+    if i==20:
+        break
 
     if 'rRNA' in line:
         continue
