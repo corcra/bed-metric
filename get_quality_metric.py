@@ -68,7 +68,7 @@ for frac in sorted(master_dict):
     n_uniq_both=0
     n_total_both=0
     for strand in n_uniq:
-        print frac, strand, n_uniq[strand], n_total[strand], float(n_uniq[strand])/n_total[strand]
+        print frac, strand, n_uniq[strand], n_total[strand] 
         n_uniq_both = n_uniq[strand] + n_uniq_both
         n_total_both = n_total[strand] + n_total_both
     recordfile.write(data_name+'\t'+str(frac)+'\t'+str(n_uniq_both)+'\t'+str(n_total_both)+'\n')
