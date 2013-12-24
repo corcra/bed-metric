@@ -20,6 +20,8 @@ get_deriv_model<-function(dataset){
         y<-uniq_sorted[i]
         x<-total_sorted[i]
         deriv[i]<-(y-prev_y)/(x-prev_x)
+        # arbitrary testing stuff
+        if (is.na(deriv[i])){deriv[i]<-50}
         if ((deriv[i]<THRESHOLD)&(crossed==0)){
             crossed<-1
             before_x<-total_sorted[(i-1)]
@@ -44,7 +46,8 @@ get_deriv_model<-function(dataset){
     return(list('deriv'=deriv,'x_val'=x_val,'y_val'=y_val,'lm'=model))
     }
 
-the_data<-read.table(args[1],as.is=TRUE)
+data_file<-args[1]
+the_data<-read.table(data_file,as.is=TRUE)
 plot_yn<-(args[2]=='1')
 data_path<-args[3]
 data_name<-args[4]
@@ -56,14 +59,10 @@ x_metric<-deriv_data$x_val
 y_metric<-deriv_data$y_val
 cat(x_metric,y_metric,'\n')
 # Save the result!
-add_metric <- cat("awk 'BEGIN{ print \"",x_metric," ",y_metric,"\" }{ print }' ",data_path," > ",data_path,".withname",sep="")
-print(add_metric)
-browser()
+add_metric <- paste("awk 'BEGIN{ print \"x-val: ",x_metric," y-val: ",y_metric,"\" }{ print }' ",data_file," > ",data_file,".withname",sep="")
 system(add_metric)
-rename <- cat("mv ",data_path,".withname ",data_path,sep="")
-print(rename)
+rename <- paste("mv ",data_file,".withname ",data_file,sep="")
 system(rename)
-browser()
 
 if(plot_yn){ cat('Creating quality plot!\n')
     plot_path<-paste(data_path,'.metricplot.pdf',sep='')
