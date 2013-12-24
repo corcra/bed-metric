@@ -54,7 +54,16 @@ deriv<-deriv_data$deriv
 model<-deriv_data$lm
 x_metric<-deriv_data$x_val
 y_metric<-deriv_data$y_val
-cat(paste(x_metric,y_metric,'\n'))
+cat(x_metric,y_metric,'\n')
+# Save the result!
+add_metric <- cat("awk 'BEGIN{ print \"",x_metric," ",y_metric,"\" }{ print }' ",data_path," > ",data_path,".withname",sep="")
+print(add_metric)
+browser()
+system(add_metric)
+rename <- cat("mv ",data_path,".withname ",data_path,sep="")
+print(rename)
+system(rename)
+browser()
 
 if(plot_yn){ cat('Creating quality plot!\n')
     plot_path<-paste(data_path,'.metricplot.pdf',sep='')
