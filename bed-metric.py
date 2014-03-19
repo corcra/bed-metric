@@ -18,7 +18,7 @@ from copy import copy
 random.seed()
 
 parser = argparse.ArgumentParser(description='Calculate quality metric!')
-parser.add_argument('file',help='bed.gz file! (must be sorted - use sort-bed)',metavar='DATA.bed.gz')
+parser.add_argument('file',help='bed.gz file! (must be sorted - use sortBed (bedtools) or sort-bed (bedops))',metavar='DATA.bed.gz')
 parser.add_argument('--plot',help='plot #unique v #total with (predicted) asymptote!',action='store_true')
 
 args = parser.parse_args()
