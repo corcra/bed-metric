@@ -6,7 +6,6 @@ THRESHOLD<-0.01
 library(ggplot2)
 library(grid)
 
-mytheme<-theme(legend.position="bottom",legend.direction="vertical",legend.key=element_rect(fill="white"),axis.title.x=element_text(vjust=-0.2),axis.title.y=element_text(angle=90,vjust=0.2),plot.title=element_text(size=15,vjust=1.4),plot.margin=unit(c(0.75,0.75,0.75,0.75),"cm"),panel.background=element_rect(fill="grey97",colour=NA),axis.line=element_line(colour="grey"))
 
 get_deriv_model<-function(dataset){
     n<-nrow(dataset)
@@ -153,9 +152,16 @@ for (lab in name_labels){
 d<-data.frame(total_all,uniq_all,name_all)
 names(d)<-c("total","unique","dataset")
 
+if(length(args)>8){
+    pos<-"left"
+    w<-11
+}else{
+    pos<-"bottom"
+    w<-7
+}
+
+mytheme<-theme(legend.position=pos,legend.direction="vertical",legend.key=element_rect(fill="white"),axis.title.x=element_text(vjust=-0.2),axis.title.y=element_text(angle=90,vjust=0.2),plot.title=element_text(size=15,vjust=1.4),plot.margin=unit(c(0.75,0.75,0.75,0.75),"cm"),panel.background=element_rect(fill="grey97",colour=NA),axis.line=element_line(colour="grey"))
 write.table(d,file="test.txt",col.names=T,row.names=F,quote=F)
 ggplot(d,aes(x=total,y=unique,linetype=dataset,colour=dataset))+geom_line()+scale_color_manual(values=colours_all,breaks=n_l,labels=n_l)+guides(dataset=guide_legend())+mytheme+xlab("total (millions)")+ylab("unique (millions)")+scale_linetype_manual(values=linetypes,breaks=n_l,labels=n_l)+geom_segment(data=asymptotes,aes(x=0,xend=x_metric,y=y_metric,yend=y_metric,colour=levels(d$dataset)[which(grepl("asymptote",levels(d$dataset)))][col],linetype=levels(d$dataset)[which(grepl("asymptote",levels(d$dataset)))][col]))+scale_x_continuous(expand = c(0,0)) + scale_y_continuous(expand=c(0,0),limit=c(0,max(d$unique)*1.03))+ggtitle("Dataset quality comparison")
 
-#+guides(dataset=guide_legend(title=NULL,byrow=FALSE),linetype=FALSE)
-#+theme(legend.position = "bottom")+guide_legend(nrow=2)
-ggsave("test.pdf")
+ggsave("bed-metric_comparison.pdf",width=w)
